@@ -11,6 +11,10 @@ gem "pg", ">= 0.18", "< 2.0"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 
+# Use Redis and Sidekiq for background jobs
+gem "redis", "~> 4.0"
+gem "sidekiq", "~> 6.2", ">= 6.2.1"
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
