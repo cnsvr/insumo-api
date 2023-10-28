@@ -3,19 +3,13 @@ module BaseModel
 
     included do
         # Callbacks
-        before_save :set_id, set_created_at: true
+        before_save :set_id
+        before_create :set_created_at
         before_update :set_updated_at
-        before_destroy :set_deleted_at
-
-        # Validations
-        validates :id, presence: true, uniqueness: true
-        validates :created_at, presence: true
-        validates :updated_at, presence: true, on: :update
-        validates :deleted_at, presence: true, on: :destroy
 
         # Scopes
-        default_scope { where(deleted_at: nil) }
-        scope :deleted, -> { unscoped.where.not(deleted_at: nil) }
+        scope :by_created_at, -> { order(created_at: :asc) }
+        scope :by_updated_at, -> { order(updated_at: :asc) }
         
         # Class Methods
         class << self
@@ -25,8 +19,9 @@ module BaseModel
         end
 
         # Instance Methods
+        private
         def set_id
-            self.id = SecureRandom.id
+            self.id ||= SecureRandom.uuid
         end
         
         def set_created_at
@@ -36,10 +31,5 @@ module BaseModel
         def set_updated_at
             self.updated_at = Time.now
         end
-
-        def set_deleted_at
-            self.deleted_at = Time.now
-        end
-
     end
 end
