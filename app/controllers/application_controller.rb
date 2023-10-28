@@ -1,7 +1,9 @@
-class ApplicationController < ActionController::API
+# frozen_string_literal: true
 
-    private
-    def json_response(object, status = :ok)
-        render json: object, status: status
-    end
+class ApplicationController < ActionController::API
+  private
+
+  def json_response(object, status = :ok)
+    render json: object, status:
+  end
 end
