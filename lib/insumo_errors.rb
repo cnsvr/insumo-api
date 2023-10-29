@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module InsumoErrors
-  class InsumoBaseError < StandardError
+  class BaseError < StandardError
     attr_reader :status, :message, :code, :data
 
     def initialize(status, message, code, data)
@@ -26,31 +26,31 @@ module InsumoErrors
     end
   end
 
-  class BadRequest < InsumoBaseError
+  class BadRequest < BaseError
     def initialize(message, code, data)
       super(400, message, code, data)
     end
   end
 
-  class Authorization < InsumoBaseError
+  class Authorization < BaseError
     def initialize(message, code, data)
       super(401, message, code, data)
     end
   end
 
-  class Forbidden < InsumoBaseError
+  class Forbidden < BaseError
     def initialize(message, code, data)
       super(403, message, code, data)
     end
   end
 
-  class NotFound < InsumoBaseError
+  class NotFound < BaseError
     def initialize(message, code, data)
       super(404, message, code, data)
     end
   end
 
-  class InternalServerError < InsumoBaseError
+  class InternalServerError < BaseError
     def initialize(message, code, data)
       super(500, message, code, data)
     end

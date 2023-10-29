@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   # root "posts#index"
   get 'tasks_by_user/:user_id' => 'task#by_user'
   get 'task_master/:user_id' => 'task_master#index'
+  post 'start_sync' => 'task#start_sync'
 
   mount Sidekiq::Web => '/sidekiq'
 end
