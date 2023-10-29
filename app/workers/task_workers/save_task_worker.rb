@@ -13,39 +13,32 @@ module TaskWorkers
       Rails.logger.info "Sync task for user: #{user_id} started at #{Time.now}"
       @user_id = user_id
 
-      if user.nil?
-        Rails.logger.error "User not found for id: #{user_id} with jid: #{jid}"
-        return
-      end
+      return if user.nil?
 
-      # get mock data from task master service
+      process_user_tasks
+
+      Rails.logger.info "Sync task for user: #{user_id} completed at #{Time.now}"
+    rescue InsumoErrors::BaseError => e
+      handle_error(e)
+      raise e
+    rescue StandardError => e
+      handle_error(e)
+      raise e
+    end
+
+    private
+
+    def process_user_tasks
       user_mock_tasks = mock_data['tasks']
       Rails.logger.info "Found #{user_mock_tasks.count} tasks for user: #{user_id}"
 
-      # for each task
       user_mock_tasks.each do |mock_task|
         task_id = mock_task['id']
         @task_id = task_id
 
         create_or_skip_task(task_id, user_id, mock_task)
       end
-
-      Rails.logger.info "Sync task for user: #{user_id} completed at #{Time.now}"
-    ## Any client error will be handled here
-    rescue InsumoErrors::BaseError => e
-      Rails.logger.error "Error while saving task #{task_id} for user: #{user_id} with jid: #{jid}"
-      Rails.logger.error e.to_json
-      # raise e to retry
-      raise e
-    rescue StandardError => e
-      Rails.logger.error "Error while saving task #{task_id} for user: #{user_id} with jid: #{jid}"
-      Rails.logger.error e.message
-      Rails.logger.error e.backtrace.join("\n")
-      # raise e to retry
-      raise e
     end
-
-    private
 
     def mock_data
       response = Net::HTTP.get_response(uri)
@@ -63,6 +56,12 @@ module TaskWorkers
         error_message = response.error if response.try(:error).present?
         raise InsumoErrors::InternalServerError.new(error_message, 'INTERNAL_SERVER_ERROR', { uri: uri.to_s })
       end
+    end
+
+    def handle_error(error) 
+      Rails.logger.error "Error while saving task #{task_id} for user: #{user_id} with jid: #{jid}"
+      Rails.logger.error error.message
+      Rails.logger.error error.backtrace.join("\n")
     end
 
     def uri

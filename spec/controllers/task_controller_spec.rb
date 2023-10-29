@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe 'TaskController', type: :request do
   describe 'GET /tasks_by_user/:user_id' do

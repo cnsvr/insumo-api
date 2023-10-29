@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe Task, type: :model do
   let(:task) { FactoryBot.create(:task) }

@@ -38,6 +38,9 @@ gem 'bootsnap', require: false
 # Rubocop for linting
 gem 'rubocop', require: false
 
+# Swagger for API documentation
+gem 'rswag'
+
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
@@ -49,14 +52,21 @@ group :development, :test do
   gem 'database_cleaner', '~> 2.0'
   gem 'debug', platforms: %i[mri windows]
   gem 'factory_bot_rails', '~> 6.2.0'
+  gem 'faker', '~> 2.18'
   gem 'rspec-rails', '~> 5.0.0'
   gem 'shoulda-matchers', '~> 5.0'
   gem 'simplecov', require: false
-  gem 'faker', '~> 2.18'
+  gem 'webmock', '~> 3.12'
 end
 
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
-  gem 'rswag'
+end
+
+group :test do
+  # Adds support for Capybara system testing and selenium driver [
+  # Rspec for testing
+  gem 'rspec-sidekiq'
+  gem 'sidekiq-status'
 end
