@@ -3,13 +3,13 @@
 class TaskController < ApplicationController
   # GET /tasks_by_user/:user_id
   def by_user
-    @tasks = Tasks::GetTasks.new(params[:user_id]).call
-    json_response(@tasks)
+    service = TaskServices::GetTasks.call(params[:user_id])
+    json_response(service.result)
   end
 
   # POST /start_sync
   def start_sync
-    Tasks::SyncTask.new(params[:user_id]).call
-    json_response({ message: 'Sync started' })
+    service = TaskServices::SyncTask.call(params[:user_id])
+    json_response({ message: 'Sync started', job_id: service.result })
   end
 end

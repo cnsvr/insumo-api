@@ -12,8 +12,7 @@ class ApplicationService
     service
   end
 
-  def initialize(*args)
-    super
+  def initialize(*_args)
     self.status = :not_run
     self.errors = []
     self.result = nil

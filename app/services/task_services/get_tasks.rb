@@ -1,11 +1,16 @@
 # frozen_string_literal: true
 
-module TaskService
+module TaskServices
   class GetTasks < ApplicationService
-    attr_accessor :user_id, :integer
+    attr_reader :user_id, :integer
 
     def validate
       add_error(:must_have_user_id) if user_id.blank?
+    end
+
+    def initialize(user_id)
+      super
+      @user_id = user_id
     end
 
     def call
