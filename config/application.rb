@@ -33,5 +33,5 @@ module InsumoApi
     config.api_only = true
 
     config.log_formatter = JsonLogFormatter.new
-  end
+  end  
 end

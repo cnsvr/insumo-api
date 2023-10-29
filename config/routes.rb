@@ -17,9 +17,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  get 'tasks_by_user/:user_id' => 'task#by_user'
+  get 'get_tasks/:user_id' => 'task#tasks'
   get 'task_master/:user_id' => 'task_master#index'
   post 'start_sync' => 'task#start_sync'
 
-  mount Sidekiq::Web => '/sidekiq'
+  mount Sidekiq::Web => '/sidekiq'  
 end

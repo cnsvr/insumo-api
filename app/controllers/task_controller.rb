@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class TaskController < ApplicationController
-  # GET /tasks_by_user/:user_id
-  def by_user
+  # GET /get_tasks/:user_id
+  def tasks
     service = TaskServices::GetTasks.call(params[:user_id])
     json_response(service.result)
   end
