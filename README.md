@@ -40,3 +40,14 @@
     - You can run `tail -f log/development.log` to see the logs in real time
     - Sidekiq logs are stored in the SIDEKIQ_LOG_PATH environment variable or in the log/#{Rails.env}_sidekiq.log file. You can run `tail -f log/development_sidekiq.log` to see the logs in real time
     - Also, logs can be sent to a third-party service like Loggly or Papertrail, NewRelic, etc.
+
+## Code Quality
+    - Rubocop is used for code quality
+    - It is configured in the .rubocop.yml file
+    - You can run `bundle exec rubocop` to run the linter
+
+## Coverage
+    - SimpleCov is used for test coverage
+    - It is configured in the spec/spec_helper.rb file
+    - You can run `bundle exec rspec` to run the tests and see the coverage
+    - You can also see the coverage in the coverage/index.html file
