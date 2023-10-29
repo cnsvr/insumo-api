@@ -1,7 +1,7 @@
 ### Insumo Backend API
 
 ## Description
-    - It is a productivity app that fetches tasks from a mocked third-party platform called "TaskMaster" using Sidekiq for background processing.
+It is a productivity app that fetches tasks from a mocked third-party platform called "TaskMaster" using Sidekiq for background processing.
 
 ## Dependencies
     - Ruby 3.2.2
