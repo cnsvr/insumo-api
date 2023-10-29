@@ -3,7 +3,7 @@
 require 'swagger_helper'
 
 describe 'Task API' do
-  path '/tasks_by_user/{user_id}' do
+  path '/get_tasks/{user_id}' do
     get 'Retrieves tasks by user_id' do
       tags 'Tasks'
       produces 'application/json'

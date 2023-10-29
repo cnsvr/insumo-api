@@ -3,13 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe 'TaskController', type: :request do
-  describe 'GET /tasks_by_user/:user_id' do
+  describe 'GET /get_tasks/:user_id' do
     let(:task) { FactoryBot.create(:task) }
 
     context 'when user_id is present' do
       it 'should call TaskServices::GetTasks and return tasks' do
         expect(TaskServices::GetTasks).to receive(:call).with(task.user_id).and_call_original
-        get "/tasks_by_user/#{task.user_id}"
+        get "/get_tasks/#{task.user_id}"
         expect(response.status).to eq(200)
         expect(response.body).to eq([task].to_json)
       end

@@ -21,5 +21,5 @@ Rails.application.routes.draw do
   get 'task_master/:user_id' => 'task_master#index'
   post 'start_sync' => 'task#start_sync'
 
-  mount Sidekiq::Web => '/sidekiq'  
+  mount Sidekiq::Web => '/sidekiq'
 end
