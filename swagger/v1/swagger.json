@@ -5,7 +5,7 @@
     "version": "v1"
   },
   "paths": {
-    "/tasks_by_user/{user_id}": {
+    "/get_tasks/{user_id}": {
       "get": {
         "summary": "Retrieves tasks by user_id",
         "tags": [
