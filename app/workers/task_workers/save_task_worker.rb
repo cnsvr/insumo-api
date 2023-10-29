@@ -21,9 +21,6 @@ module TaskWorkers
     rescue InsumoErrors::BaseError => e
       handle_error(e)
       raise e
-    rescue StandardError => e
-      handle_error(e)
-      raise e
     end
 
     private
@@ -42,7 +39,10 @@ module TaskWorkers
 
     def mock_data
       response = Net::HTTP.get_response(uri)
+      handle_response(response)
+    end
 
+    def handle_response(response)
       case response.code
       when '200'
         JSON.parse(response.body)
@@ -58,7 +58,7 @@ module TaskWorkers
       end
     end
 
-    def handle_error(error) 
+    def handle_error(error)
       Rails.logger.error "Error while saving task #{task_id} for user: #{user_id} with jid: #{jid}"
       Rails.logger.error error.message
       Rails.logger.error error.backtrace.join("\n")
@@ -80,18 +80,21 @@ module TaskWorkers
     def create_or_skip_task(task_id, user_id, mock_task)
       existing_task = user.tasks.find_by(id: task_id)
       if existing_task.nil?
-        Rails.logger.info "Creating new task for user: #{user_id}"
-        # create
-        task = Task.new
-        task.id = task_id
-        task.user = user
-        task.title = mock_task['title']
-        task.due_date = mock_task['due_date']
-        task.save!
-        Rails.logger.info "Task #{task_id} created for user: #{user_id}"
+        create_new_task(task_id, user_id, mock_task)
       else
         Rails.logger.info "Task #{task_id} already exists for user: #{user_id}"
       end
+    end
+
+    def create_new_task(task_id, user_id, mock_task)
+      Rails.logger.info "Creating new task for user: #{user_id}"
+      task = Task.new
+      task.id = task_id
+      task.user = user
+      task.title = mock_task['title']
+      task.due_date = mock_task['due_date']
+      task.save!
+      Rails.logger.info "Task #{task_id} created for user: #{user_id}"
     end
   end
 end
